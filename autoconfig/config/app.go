@@ -70,4 +70,3 @@ func readConfigFile(appConfig AppArgs) ([]byte, error) {
 
 	return configData, err
 }
-

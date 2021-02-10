@@ -2,8 +2,8 @@ package config
 
 import (
 	"errors"
+	"github.com/thingworks/common/utils/strings2"
 	"sync"
-	"thingworks/common/utils/strings2"
 )
 
 const (

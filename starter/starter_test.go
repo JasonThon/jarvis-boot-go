@@ -3,11 +3,11 @@ package starter
 import (
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	"github.com/thingworks/common/https"
+	"github.com/thingworks/common/utils/strings2"
 	"io/ioutil"
 	"net/http"
 	"testing"
-	"thingworks/common/https"
-	"thingworks/common/utils/strings2"
 	"time"
 )
 
@@ -18,7 +18,7 @@ type testResource struct{}
 func (t testResource) Handlers() https.HandlerMap {
 	return https.HandlerMap{
 		"hello": https.Get(t.hello),
-		"": https.Get(t.overview),
+		"":      https.Get(t.overview),
 	}
 }
 

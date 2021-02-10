@@ -1,6 +1,6 @@
 package config
 
-import "thingworks/common/utils"
+import "github.com/thingworks/common/utils"
 
 type RecoverConfig struct {
 	BidderExpiryTime int
@@ -11,4 +11,3 @@ type RecoverConfig struct {
 func (recoverConfig RecoverConfig) Check() error {
 	return utils.CheckCron(recoverConfig.Cron)
 }
-

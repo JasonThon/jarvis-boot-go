@@ -2,8 +2,8 @@ package starter
 
 import (
 	"fmt"
-	"thingworks/common/autoconfig/config"
-	"thingworks/common/https"
+	"github.com/thingworks/common/autoconfig/config"
+	"github.com/thingworks/common/https"
 )
 
 type ApplicationStarter interface {

@@ -3,10 +3,10 @@ package mongodb
 import (
 	"fmt"
 	"github.com/sirupsen/logrus"
+	config2 "github.com/thingworks/common/autoconfig/config"
+	"github.com/thingworks/common/utils/strings2"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	config2 "thingworks/common/autoconfig/config"
-	"thingworks/common/utils/strings2"
 )
 
 type connectionError struct{ err error }
@@ -38,7 +38,7 @@ func (conn *MongoDBConnector) getMongoTemplate(databaseName string) *MongoTempla
 	return NewMongoTemplate(database)
 }
 
-func  getOptions(mongoConf config2.MongoConfig) *options.ClientOptions {
+func getOptions(mongoConf config2.MongoConfig) *options.ClientOptions {
 	clientOptions := &options.ClientOptions{}
 	var credential options.Credential
 

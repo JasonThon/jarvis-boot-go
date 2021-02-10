@@ -1,6 +1,6 @@
 package exception
 
-import "thingworks/common/https"
+import "github.com/thingworks/common/https"
 
 type IllegalCommandException struct {
 	statusCode int

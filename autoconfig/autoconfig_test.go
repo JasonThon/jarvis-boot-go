@@ -2,8 +2,8 @@ package autoconfig
 
 import (
 	"github.com/stretchr/testify/assert"
+	"github.com/thingworks/common/autoconfig/config"
 	"testing"
-	"thingworks/common/autoconfig/config"
 )
 
 func TestDefaultConfig(t *testing.T) {

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"thingworks/common/autoconfig/config"
-	"thingworks/common/autoconfig/mongodb"
+	"github.com/thingworks/common/autoconfig/config"
+	"github.com/thingworks/common/autoconfig/mongodb"
 )
 
 type MongoServiceStarter struct{}
@@ -18,4 +18,3 @@ func (m *MongoServiceStarter) ServiceName() string {
 func NewMongoStarter() *MongoServiceStarter {
 	return &MongoServiceStarter{}
 }
-
