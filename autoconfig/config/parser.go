@@ -94,9 +94,6 @@ func NewAppConfigParser() *AppConfigParser {
 	}
 }
 
-func (appParser *AppConfigParser) ParseConfig(config interface{}) {
-	conf, ok := config.(AppConfig)
-	if ok {
-		appParser.DefaultConfigParser.ParseConfig(&conf.Mongodb)
-	}
+func (appParser *AppConfigParser) ParseConfig(config AppConfig) {
+	appParser.DefaultConfigParser.ParseConfig(&config.Mongodb)
 }
