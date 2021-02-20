@@ -7,9 +7,12 @@ import (
 	"github.com/thingworks/common/utils/strings2"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"regexp"
 )
 
 type connectionError struct{ err error }
+
+var reg = regexp.MustCompile("\\\\$\\\\{([^}]*)\\\\}")
 
 func (c connectionError) Error() string {
 	return fmt.Sprintf("Exception happens when connect MongoDB: %v", c.err)
@@ -20,7 +23,6 @@ type MongoDBConnector struct {
 }
 
 func NewConnector(mongoConf config2.MongoConfig) (error, *MongoDBConnector) {
-
 	clientOpts := getOptions(mongoConf)
 
 	client, err := mongo.Connect(context, clientOpts)

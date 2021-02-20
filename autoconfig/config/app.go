@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 )
 
+var appParser = NewAppConfigParser()
+
 type AppConfig struct {
 	Redis     RedisConfig
 	App       ServerConfig
@@ -50,8 +52,10 @@ func parseConfigData(configData []byte) {
 	}
 
 	if err = localConfig.Check(); err != nil {
-		log.Fatal("Config file is NOT valid: %s", err.Error())
+		log.Fatalf("Config file is NOT valid: %s", err.Error())
 	}
+
+	appParser.ParseConfig(localConfig)
 
 	config = &localConfig
 }

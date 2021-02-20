@@ -64,6 +64,18 @@ func EqualCaseIgnored(str1, str2 string) bool {
 	return strings.ToLower(str1) == strings.ToLower(str2)
 }
 
+func Equals(str1, str2 string) bool {
+	if len(str1) == 0 && len(str2) == 0 {
+		return true
+	}
+
+	if len(str1) == 0 || len(str2) == 0 {
+		return false
+	}
+
+	return str1 == str2
+}
+
 func NumericCompare(str1, str2 string) int {
 	if len(str1) == 0 || len(str2) == 0 {
 		return 0
