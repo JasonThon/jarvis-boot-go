@@ -94,6 +94,6 @@ func NewAppConfigParser() *AppConfigParser {
 	}
 }
 
-func (appParser *AppConfigParser) ParseConfig(config AppConfig) {
+func (appParser *AppConfigParser) ParseConfig(config *AppConfig) {
 	appParser.DefaultConfigParser.ParseConfig(&config.Mongodb)
 }

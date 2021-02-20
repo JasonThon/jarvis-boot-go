@@ -55,9 +55,9 @@ func parseConfigData(configData []byte) {
 		log.Fatalf("Config file is NOT valid: %s", err.Error())
 	}
 
-	appParser.ParseConfig(localConfig)
-
 	config = &localConfig
+
+	appParser.ParseConfig(config)
 }
 
 func readConfigFile(appConfig AppArgs) ([]byte, error) {
