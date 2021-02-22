@@ -8,13 +8,14 @@ import (
 const mongoUriPrefix = "mongodb://"
 
 type MongoConfig struct {
-	Uri      string
-	Host     string
-	Port     string
-	Username string
-	Password string
-	DataBase string
-	Timeout  time.Duration
+	Uri           string
+	Host          string
+	Port          string
+	Username      string
+	Password      string
+	DataBase      string
+	Timeout       time.Duration
+	AuthMechanism string
 }
 
 func (config MongoConfig) GetUri() string {

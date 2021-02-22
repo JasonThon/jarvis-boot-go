@@ -90,7 +90,7 @@ func closeCursor(cursor *mongo.Cursor) {
 }
 
 func (template *MongoTemplate) FindOne(filter interface{}, result Document, opts ...*options.FindOneOptions) Document {
-	collection := template.database.Collection(result.CollectionName(), collectionOpts)
+	collection := template.collection(result.CollectionName())
 	singleResult := collection.FindOne(context, filter, opts...)
 	err := singleResult.Decode(result)
 

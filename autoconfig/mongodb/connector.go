@@ -1,7 +1,6 @@
 package mongodb
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	config2 "github.com/thingworks/common/autoconfig/config"
 	"github.com/thingworks/common/utils/strings2"
@@ -10,13 +9,7 @@ import (
 	"regexp"
 )
 
-type connectionError struct{ err error }
-
 var reg = regexp.MustCompile("\\\\$\\\\{([^}]*)\\\\}")
-
-func (c connectionError) Error() string {
-	return fmt.Sprintf("Exception happens when connect MongoDB: %v", c.err)
-}
 
 type MongoDBConnector struct {
 	client *mongo.Client
@@ -47,14 +40,13 @@ func getOptions(mongoConf config2.MongoConfig) *options.ClientOptions {
 	if strings2.IsNotBlank(mongoConf.Username) && strings2.IsNotBlank(mongoConf.Password) {
 
 		credential = options.Credential{
-			Username: mongoConf.Username,
-			Password: mongoConf.Password,
+			Username:   mongoConf.Username,
+			Password:   mongoConf.Password,
+			AuthSource: mongoConf.DataBase,
 		}
-
-		clientOptions = clientOptions.SetAuth(credential)
 	}
 
 	return clientOptions.
 		ApplyURI(mongoConf.GetUri()).
-		SetConnectTimeout(mongoConf.Timeout)
+		SetAuth(credential)
 }

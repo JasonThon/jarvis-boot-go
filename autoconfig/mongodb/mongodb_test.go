@@ -4,6 +4,7 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	"github.com/thingworks/common/autoconfig/config"
 	"github.com/thingworks/common/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -15,6 +16,11 @@ import (
 
 func getDatabase() *mongo.Database {
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions = clientOptions.SetAuth(options.Credential{
+		Username: "jarvis",
+		Password: "gpCjkZCCMZeqbZzjdJ2ELrF#",
+	})
+
 	client, err := mongo.Connect(context, clientOptions)
 
 	if err != nil {
@@ -50,15 +56,45 @@ func (t *testDocument) ObjectId() primitive.ObjectID {
 	return t.Id
 }
 
+func TestNewConnector(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Exception happens when testing mongo saving: %v", r)
+		}
+	}()
+
+	err, connector := NewConnector(config.MongoConfig{
+		Host:     "localhost",
+		Port:     "27017",
+		Username: "jarvis",
+		Password: "gpCjkZCCMZeqbZzjdJ2ELrF#",
+		DataBase: "jarvis",
+	})
+
+	assert.Nil(t, err)
+
+	mongoTemplate := connector.getMongoTemplate("test_go_mongo")
+	saveDoc(mongoTemplate)
+
+	assert.NotNil(t, mongoTemplate.FindOne(bson.D{}, &testDocument{}, options.FindOne()))
+
+	assert.Nil(t, mongoTemplate.DeleteOne(bson.D{{"Name", "Test"}}, "test_go_mongo"))
+}
+
 func TestMongoTemplate_Save(t *testing.T) {
 	var testTemplate = NewMongoTemplate(getDatabase())
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Printf("Eception happens when testing saving: %v", r)
+			fmt.Printf("Exception happens when testing mongo saving: %v", r)
 		}
 	}()
 
+	saveDoc(testTemplate)
+}
+
+func saveDoc(testTemplate *MongoTemplate) {
 	now, _ := utils.Parse(utils.NowString())
+
 	testTemplate.Save(&testDocument{
 		Name:       "Test",
 		Time:       now,
