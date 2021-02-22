@@ -7,3 +7,5 @@ mongodb:
 app:
   port: 9090
   name: "Test"
+log:
+  debug: true

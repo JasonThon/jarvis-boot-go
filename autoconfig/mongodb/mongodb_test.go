@@ -8,26 +8,22 @@ import (
 	"github.com/thingworks/common/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"testing"
 	"time"
 )
 
-func getDatabase() *mongo.Database {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-	clientOptions = clientOptions.SetAuth(options.Credential{
+func getMongoTemplate() *MongoTemplate {
+	_, connector := NewConnector(config.MongoConfig{
+		Uri:      "",
+		Host:     "localhost",
+		Port:     "27017",
 		Username: "jarvis",
 		Password: "gpCjkZCCMZeqbZzjdJ2ELrF#",
+		DataBase: "jarvis",
 	})
 
-	client, err := mongo.Connect(context, clientOptions)
-
-	if err != nil {
-		return nil
-	}
-
-	return client.Database("jarvis", options.Database())
+	return connector.getMongoTemplate("jarvis")
 }
 
 type Properties struct {
@@ -78,11 +74,15 @@ func TestNewConnector(t *testing.T) {
 
 	assert.NotNil(t, mongoTemplate.FindOne(bson.D{}, &testDocument{}, options.FindOne()))
 
-	assert.Nil(t, mongoTemplate.DeleteOne(bson.D{{"Name", "Test"}}, "test_go_mongo"))
+	assert.Nil(t, deleteDoc(mongoTemplate))
+}
+
+func deleteDoc(mongoTemplate *MongoTemplate) error {
+	return mongoTemplate.DeleteOne(bson.D{{"Name", "Test"}}, "test_go_mongo")
 }
 
 func TestMongoTemplate_Save(t *testing.T) {
-	var testTemplate = NewMongoTemplate(getDatabase())
+	var testTemplate = getMongoTemplate()
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Printf("Exception happens when testing mongo saving: %v", r)
@@ -103,7 +103,7 @@ func saveDoc(testTemplate *MongoTemplate) {
 }
 
 func TestMongoTemplate_FindAll(t *testing.T) {
-	template := NewMongoTemplate(getDatabase())
+	template := getMongoTemplate()
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Printf("Eception happens when finding: %v", r)
@@ -122,7 +122,7 @@ func TestMongoTemplate_FindAll(t *testing.T) {
 }
 
 func TestMongoTemplate_DeleteOne(t *testing.T) {
-	template := NewMongoTemplate(getDatabase())
+	template := getMongoTemplate()
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Printf("Eception happens when finding: %v", r)
@@ -143,4 +143,19 @@ func TestMongoTemplate_DeleteOne(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func TestMongoTemplate_FindOne_NilProjectId(t *testing.T) {
+	template := getMongoTemplate()
+	saveDoc(template)
+
+	document := template.FindOne(bson.D{
+		{"_id", bson.D{
+			{"$gte", primitive.NilObjectID},
+		}},
+	}, &testDocument{}, options.FindOne())
+
+	assert.NotNil(t, document)
+
+	assert.Nil(t, deleteDoc(template))
 }

@@ -29,6 +29,8 @@ func request(path string) *http.Response {
 		log.Fatalf("Error happens: %s", err.Error())
 	}
 
+	log.Debugf("Response is: %v", resp)
+
 	return resp
 }
 
@@ -53,6 +55,7 @@ func TestDefaultStarter_Run(t *testing.T) {
 	time.Sleep(3 * time.Second)
 
 	resp := request("/teststarter/hello")
+
 	defer func() {
 		if r := recover(); r != nil {
 			log.Errorf("Error happens when start server: %v", r)

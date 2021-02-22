@@ -22,6 +22,11 @@ func (starter *defaultStarter) RegisterStarter(service ServiceStarter) {
 
 func (starter *defaultStarter) Run([]string) {
 	port := strings2.Concat(":", strings2.Itoa(starter.port()))
+
+	if starter.appConfig.Log.Debug {
+		log.SetLevel(log.DebugLevel)
+	}
+
 	starter.StartAllServices()
 	wg := sync.WaitGroup{}
 	wg.Add(1)
