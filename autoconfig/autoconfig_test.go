@@ -2,7 +2,7 @@ package autoconfig
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/thingworks/common/autoconfig/config"
+	"thingworks.net/thingworks/common/autoconfig/config"
 	"testing"
 )
 

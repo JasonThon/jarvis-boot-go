@@ -1,6 +1,6 @@
 package config
 
-import "github.com/thingworks/common/utils"
+import "thingworks.net/thingworks/common/utils"
 
 type RecoverConfig struct {
 	BidderExpiryTime int

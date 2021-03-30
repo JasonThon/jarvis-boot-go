@@ -1,4 +1,4 @@
-module github.com/thingworks/common
+module thingworks.net/thingworks/common
 
 go 1.15
 

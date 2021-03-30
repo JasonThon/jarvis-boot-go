@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/sirupsen/logrus"
-	"github.com/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/common/utils/strings2"
 	"os"
 	"reflect"
 	"regexp"

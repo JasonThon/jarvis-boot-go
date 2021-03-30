@@ -4,10 +4,10 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"sync"
-	config2 "github.com/thingworks/common/autoconfig/config"
-	"github.com/thingworks/common/https"
-	"github.com/thingworks/common/starter/service"
-	"github.com/thingworks/common/utils/strings2"
+	config2 "thingworks.net/thingworks/common/autoconfig/config"
+	"thingworks.net/thingworks/common/https"
+	"thingworks.net/thingworks/common/starter/service"
+	"thingworks.net/thingworks/common/utils/strings2"
 )
 
 type defaultStarter struct {

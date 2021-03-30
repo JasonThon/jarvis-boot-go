@@ -3,8 +3,8 @@ package starter
 import (
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	"github.com/thingworks/common/https"
-	"github.com/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/common/https"
+	"thingworks.net/thingworks/common/utils/strings2"
 	"io/ioutil"
 	"net/http"
 	"testing"

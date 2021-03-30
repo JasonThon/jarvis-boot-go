@@ -11,8 +11,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/thingworks/common/autoconfig/config"
-	"github.com/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/common/autoconfig/config"
+	"thingworks.net/thingworks/common/utils/strings2"
 )
 
 type HttpHandler func(http.ResponseWriter, *HttpRequest)

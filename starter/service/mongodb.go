@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/thingworks/common/autoconfig/config"
-	"github.com/thingworks/common/autoconfig/mongodb"
+	"thingworks.net/thingworks/common/autoconfig/config"
+	"thingworks.net/thingworks/common/autoconfig/mongodb"
 )
 
 type MongoServiceStarter struct{}

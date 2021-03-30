@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/common/utils/strings2"
 	"time"
 )
 

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gomodule/redigo/redis"
-	"github.com/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/common/utils/strings2"
 	"log"
 	"time"
 )

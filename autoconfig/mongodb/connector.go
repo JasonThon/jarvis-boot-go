@@ -2,8 +2,8 @@ package mongodb
 
 import (
 	"github.com/sirupsen/logrus"
-	config2 "github.com/thingworks/common/autoconfig/config"
-	"github.com/thingworks/common/utils/strings2"
+	config2 "thingworks.net/thingworks/common/autoconfig/config"
+	"thingworks.net/thingworks/common/utils/strings2"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"regexp"
