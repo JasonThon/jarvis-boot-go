@@ -6,7 +6,8 @@ import (
 )
 
 type MqttConfig struct {
-	Broker            string
+	Host              string
+	Port              int
 	ClientId          string        `yaml:"clientId"`
 	KeepAlive         time.Duration `yaml:"keepAlive"`
 	PingTimeout       time.Duration `yaml:"pingTimeout"`
@@ -15,6 +16,10 @@ type MqttConfig struct {
 	Password          string
 }
 
+func (mqtt MqttConfig) Broker() string {
+	return strings2.Concat(mqtt.Host, ":", strings2.Itoa(mqtt.Port))
+}
+
 func (mqtt MqttConfig) IsValid() bool {
-	return strings2.IsNotBlank(mqtt.Broker)
+	return strings2.IsNotBlank(mqtt.Broker())
 }

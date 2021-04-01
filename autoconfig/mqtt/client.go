@@ -26,7 +26,7 @@ func (cli Client) Conn() error {
 			return token.Error()
 		}
 
-		logrus.Infof("Mqtt client has connected to broker [%v] successfully", cli.defaultConf.Mqtt.Broker)
+		logrus.Infof("Mqtt client has connected to broker [%v] successfully", cli.defaultConf.Mqtt.Broker())
 	}
 
 	return nil
@@ -41,7 +41,7 @@ func NewClient(defaultConfig config2.AppConfig) *Client {
 
 func newMqttClient(defaultConfig config2.AppConfig) mqtt.Client {
 	if defaultConfig.Mqtt.IsValid() {
-		opts := mqtt.NewClientOptions().AddBroker(defaultConfig.Mqtt.Broker).SetClientID(defaultConfig.Mqtt.ClientId)
+		opts := mqtt.NewClientOptions().AddBroker(defaultConfig.Mqtt.Broker()).SetClientID(defaultConfig.Mqtt.ClientId)
 		opts.SetKeepAlive(defaultConfig.Mqtt.KeepAlive * time.Second)
 		opts.SetPingTimeout(defaultConfig.Mqtt.PingTimeout * time.Second)
 		opts.SetConnectTimeout(defaultConfig.Mqtt.ConnectionTimeout * time.Second)
