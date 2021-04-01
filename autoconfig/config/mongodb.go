@@ -25,3 +25,15 @@ func (config MongoConfig) GetUri() string {
 
 	return strings2.Concat(mongoUriPrefix, strings2.Join([]string{config.Host, config.Port}, ":"))
 }
+
+func (config MongoConfig) IsValidConf() bool {
+	return config.isValidHost() && config.isValidDb()
+}
+
+func (config MongoConfig) isValidHost() bool {
+	return strings2.IsNotBlank(config.Uri) || (strings2.IsNotBlank(config.Port) && strings2.IsNotBlank(config.Host))
+}
+
+func (config MongoConfig) isValidDb() bool {
+	return strings2.IsNotBlank(config.DataBase)
+}

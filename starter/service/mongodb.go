@@ -7,8 +7,8 @@ import (
 
 type MongoServiceStarter struct{}
 
-func (m *MongoServiceStarter) Start(configs config.AppConfig) error {
-	return mongodb.InitMongoTemplate(configs.Mongodb)
+func (m *MongoServiceStarter) Start() error {
+	return mongodb.InitMongoTemplate(config.DefaultConfig().Mongodb)
 }
 
 func (m *MongoServiceStarter) ServiceName() string {

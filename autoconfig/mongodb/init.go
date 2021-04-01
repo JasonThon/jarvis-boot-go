@@ -11,7 +11,9 @@ func InitMongoTemplate(config config2.MongoConfig) error {
 		return err
 	}
 
-	template = *conn.getMongoTemplate(config.DataBase)
+	if conn != nil {
+		template = *conn.getMongoTemplate(config.DataBase)
+	}
 
 	return nil
 }

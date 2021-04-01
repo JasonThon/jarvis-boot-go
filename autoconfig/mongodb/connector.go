@@ -2,32 +2,33 @@ package mongodb
 
 import (
 	"github.com/sirupsen/logrus"
-	config2 "thingworks.net/thingworks/common/autoconfig/config"
-	"thingworks.net/thingworks/common/utils/strings2"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"regexp"
+	config2 "thingworks.net/thingworks/common/autoconfig/config"
+	"thingworks.net/thingworks/common/utils/strings2"
 )
 
-var reg = regexp.MustCompile("\\\\$\\\\{([^}]*)\\\\}")
-
-type MongoDBConnector struct {
+type Connector struct {
 	client *mongo.Client
 }
 
-func NewConnector(mongoConf config2.MongoConfig) (error, *MongoDBConnector) {
-	clientOpts := getOptions(mongoConf)
+func NewConnector(mongoConf config2.MongoConfig) (error, *Connector) {
+	if mongoConf.IsValidConf() {
+		clientOpts := getOptions(mongoConf)
 
-	client, err := mongo.Connect(context, clientOpts)
+		client, err := mongo.Connect(context, clientOpts)
 
-	logrus.Infof("Mongo Connection build success. The uri is: %s", mongoConf.GetUri())
+		logrus.Infof("Mongo Connection build success. The uri is: %s", mongoConf.GetUri())
 
-	return err, &MongoDBConnector{
-		client: client,
+		return err, &Connector{
+			client: client,
+		}
 	}
+
+	return nil, nil
 }
 
-func (conn *MongoDBConnector) getMongoTemplate(databaseName string) *MongoTemplate {
+func (conn *Connector) getMongoTemplate(databaseName string) *MongoTemplate {
 	database := conn.client.Database(databaseName, options.Database())
 	logrus.Infof("Mongo Database [%s] is connected", databaseName)
 	return NewMongoTemplate(database)

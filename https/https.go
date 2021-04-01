@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 
 	"thingworks.net/thingworks/common/autoconfig/config"
@@ -86,7 +88,29 @@ func Get(handler HttpHandler) HttpHandler {
 }
 
 type HttpRequest struct {
-	http.Request
+	*http.Request
+	pathParams map[string]string
+}
+
+func newHttpRequest(request *http.Request) *HttpRequest {
+	return &HttpRequest{
+		Request:    request,
+		pathParams: map[string]string{},
+	}
+}
+
+func (request *HttpRequest) GetPathParam(name string) string {
+	return request.pathParams[name]
+}
+
+func (request *HttpRequest) Read(buf []byte) (int, error) {
+	n, err := request.Body.Read(buf)
+
+	if err != nil {
+		return n, err
+	}
+
+	return n, request.Body.Close()
 }
 
 func (request *HttpRequest) ApiKey() string {
@@ -115,6 +139,12 @@ func (request *HttpRequest) QueryString(key string) string {
 	}
 
 	return ""
+}
+
+func (request *HttpRequest) AddPathParams(pathParams map[string]string) {
+	for key, value := range pathParams {
+		request.pathParams[key] = value
+	}
 }
 
 func Post(handler HttpHandler) HttpHandler {
@@ -152,18 +182,18 @@ func method(methodName string, handler HttpHandler) HttpHandler {
 	}
 }
 
-func Register(resource Resource, mux *http.ServeMux, path string) {
+func Register(resource Resource, router *mux.Router, path string) {
 	for key, handler := range resource.Handlers() {
 		reqPath, _ := url.PathUnescape(strings2.Join([]string{path, key}, "/"))
-		mux.HandleFunc(reqPath, wrapToFunc(reqPath, handler))
+		router.HandleFunc(reqPath, wrapToFunc(reqPath, handler))
 	}
 }
 
 func wrapToFunc(path string, handler HttpHandler) func(w http.ResponseWriter, r *http.Request) {
-	PermitAll(path)
+	AddPermission(path)
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer processError(w)()
-		auth(path, handler)(w, &HttpRequest{*r})
+		auth(path, handler)(w, newHttpRequest(r))
 	}
 }
 
@@ -210,7 +240,13 @@ func writeErrorInfo(w http.ResponseWriter, err interface{}) interface{} {
 func auth(path string, handler HttpHandler) HttpHandler {
 	return func(w http.ResponseWriter, r *HttpRequest) {
 
-		if strings2.ContainsIgnoreCase(permitAllPaths, path) {
+		if permissionSet.Contains(path) {
+			if hasPlaceHolder(path) {
+				vars := mux.Vars(r.Request)
+
+				r.AddPathParams(vars)
+			}
+
 			handler(w, r)
 			return
 		}
@@ -222,4 +258,14 @@ func auth(path string, handler HttpHandler) HttpHandler {
 
 		handler(w, r)
 	}
+}
+
+func hasPlaceHolder(path string) bool {
+	compile, err := regexp.Compile("{.*}")
+
+	if err != nil {
+		return false
+	}
+
+	return compile.MatchString(path)
 }

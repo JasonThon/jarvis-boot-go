@@ -16,6 +16,7 @@ type AppConfig struct {
 	Registry  RegistryConfig
 	ApiKey    string
 	Mongodb   MongoConfig
+	Mqtt      MqttConfig
 }
 
 func (config *AppConfig) Check() error {

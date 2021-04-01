@@ -4,16 +4,19 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"sync"
+	"sync/atomic"
 	config2 "thingworks.net/thingworks/common/autoconfig/config"
 	"thingworks.net/thingworks/common/https"
 	"thingworks.net/thingworks/common/starter/service"
 	"thingworks.net/thingworks/common/utils/strings2"
 )
 
+var wg sync.WaitGroup
+var routineCounter uint32 = 0
+
 type defaultStarter struct {
-	appConfig config2.AppConfig
-	gateway   *https.Gateway
-	services  []ServiceStarter
+	gateway  https.GatewayAdaptor
+	services []ServiceStarter
 }
 
 func (starter *defaultStarter) RegisterStarter(service ServiceStarter) {
@@ -23,14 +26,17 @@ func (starter *defaultStarter) RegisterStarter(service ServiceStarter) {
 func (starter *defaultStarter) Run([]string) {
 	port := strings2.Concat(":", strings2.Itoa(starter.port()))
 
-	if starter.appConfig.Log.Debug {
+	if config2.DefaultConfig().Log.Debug {
 		log.SetLevel(log.DebugLevel)
 	}
 
 	starter.StartAllServices()
-	wg := sync.WaitGroup{}
+
 	wg.Add(1)
+	plusRoutineCounter()
+
 	go starter.ListenAndServe(port)
+
 	wg.Wait()
 }
 
@@ -40,32 +46,52 @@ func (starter *defaultStarter) RegisterResource(resourceMap https.ResourceMap) A
 }
 
 func (starter *defaultStarter) Stop() {
+	starter.gateway.Close()
 
+	for count := 0; count < int(routineCounter); count++ {
+		wg.Done()
+	}
+
+	resetRoutineCounter()
+}
+
+func resetRoutineCounter() bool {
+	return atomic.CompareAndSwapUint32(&routineCounter, routineCounter, 0)
 }
 
 func (starter *defaultStarter) StartAllServices() {
 	for _, serviceStarter := range starter.services {
-		err := serviceStarter.Start(starter.appConfig)
+		err := serviceStarter.Start()
 		if err != nil {
 			log.WithFields(log.Fields{
-				"config": starter.appConfig,
+				"config": config2.DefaultConfig(),
 			}).Errorf("Exception when start service %s", serviceStarter.ServiceName())
 		}
 	}
 }
 
 func (starter *defaultStarter) port() int {
-	return starter.appConfig.App.Port
+	return config2.DefaultConfig().App.Port
 }
 
 func (starter *defaultStarter) ListenAndServe(port string) {
 	http.Handle("/", starter.gateway)
 	log.Infof("Service start at port %s", port)
+
+	wg.Add(1)
+	plusRoutineCounter()
+
+	go starter.gateway.Start()
+
 	err := http.ListenAndServe(port, nil)
 
 	if err != nil {
 		panic(ApplicationStartError{err: err})
 	}
+}
+
+func plusRoutineCounter() bool {
+	return atomic.CompareAndSwapUint32(&routineCounter, routineCounter, atomic.AddUint32(&routineCounter, 1))
 }
 
 func GetDefaultAppStarter(opts ConfigOptions) ApplicationStarter {
@@ -74,11 +100,11 @@ func GetDefaultAppStarter(opts ConfigOptions) ApplicationStarter {
 	})
 
 	starter := &defaultStarter{
-		appConfig: config2.DefaultConfig(),
-		gateway:   https.NewGateway(),
+		gateway: https.NewGateway(),
 	}
 
 	starter.RegisterStarter(service.NewMongoStarter())
+	starter.RegisterStarter(service.NewMqttServiceStarter())
 
 	return starter
 }

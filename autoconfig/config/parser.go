@@ -55,6 +55,10 @@ func NewDefaultConfigParser() DefaultConfigParser {
 	}
 }
 
+func (defaultParser *DefaultConfigParser) RegisterConfigParser(configType reflect.Type, parser ConfigurationParser) {
+	defaultParser.configParserMap[configType] = parser
+}
+
 func (defaultParser *DefaultConfigParser) ParseConfig(config interface{}) {
 
 	if reflect.ValueOf(config).Kind() != reflect.Ptr {

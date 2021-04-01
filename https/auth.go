@@ -1,14 +1,11 @@
 package https
 
-import "sync"
+import (
+	"thingworks.net/thingworks/common/datastructure/nonlinear"
+)
 
-var permitAllPaths []string
-var once sync.Once
+var permissionSet = nonlinear.NewStringSet()
 
-func PermitAll(paths ...string) {
-	once.Do(func() {
-		for _, path := range paths {
-			permitAllPaths = append(permitAllPaths, path)
-		}
-	})
+func AddPermission(path string) {
+	permissionSet.Add(path)
 }

@@ -2,7 +2,6 @@ package starter
 
 import (
 	"fmt"
-	"thingworks.net/thingworks/common/autoconfig/config"
 	"thingworks.net/thingworks/common/https"
 )
 
@@ -15,7 +14,7 @@ type ApplicationStarter interface {
 }
 
 type ServiceStarter interface {
-	Start(appConfig config.AppConfig) error
+	Start() error
 	ServiceName() string
 }
 
