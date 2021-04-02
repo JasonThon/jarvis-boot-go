@@ -66,6 +66,7 @@ func (router *Gateway) ServeHTTP(writer http.ResponseWriter, request *http.Reque
 }
 
 func (router *Gateway) Start() {
+	go wg.Wait()
 
 	for {
 		select {
