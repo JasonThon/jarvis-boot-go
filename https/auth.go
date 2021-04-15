@@ -1,7 +1,7 @@
 package https
 
 import (
-	"thingworks.net/thingworks/common/datastructure/nonlinear"
+	"thingworks.net/thingworks/jarvis-boot/datastructure/nonlinear"
 )
 
 var permissionSet = nonlinear.NewStringSet()

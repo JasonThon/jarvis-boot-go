@@ -13,8 +13,8 @@ import (
 	"regexp"
 	"strings"
 
-	"thingworks.net/thingworks/common/autoconfig/config"
-	"thingworks.net/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/jarvis-boot/autoconfig/config"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 )
 
 type HttpHandler func(http.ResponseWriter, *HttpRequest)

@@ -2,8 +2,8 @@ package autoconfig
 
 import (
 	"github.com/stretchr/testify/assert"
-	"thingworks.net/thingworks/common/autoconfig/config"
 	"testing"
+	"thingworks.net/thingworks/jarvis-boot/autoconfig/config"
 )
 
 func TestDefaultConfig(t *testing.T) {

@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"sync"
 	"sync/atomic"
-	config2 "thingworks.net/thingworks/common/autoconfig/config"
-	"thingworks.net/thingworks/common/https"
-	"thingworks.net/thingworks/common/starter/service"
-	"thingworks.net/thingworks/common/utils/strings2"
+	config2 "thingworks.net/thingworks/jarvis-boot/autoconfig/config"
+	"thingworks.net/thingworks/jarvis-boot/https"
+	"thingworks.net/thingworks/jarvis-boot/starter/service"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 )
 
 var wg sync.WaitGroup

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"thingworks.net/thingworks/common/autoconfig/config"
-	mqtt2 "thingworks.net/thingworks/common/autoconfig/mqtt"
+	"thingworks.net/thingworks/jarvis-boot/autoconfig/config"
+	mqtt2 "thingworks.net/thingworks/jarvis-boot/autoconfig/mqtt"
 )
 
 var client *mqtt2.Client

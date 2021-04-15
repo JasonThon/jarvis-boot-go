@@ -2,7 +2,7 @@ package starter
 
 import (
 	"fmt"
-	"thingworks.net/thingworks/common/https"
+	"thingworks.net/thingworks/jarvis-boot/https"
 )
 
 type ApplicationStarter interface {

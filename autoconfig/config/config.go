@@ -2,8 +2,8 @@ package config
 
 import (
 	"errors"
-	"thingworks.net/thingworks/common/utils/strings2"
 	"sync"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 )
 
 const (

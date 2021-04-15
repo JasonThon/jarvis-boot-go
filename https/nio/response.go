@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 	"net/http"
-	"thingworks.net/thingworks/common/utils/bytes2"
+	"thingworks.net/thingworks/jarvis-boot/utils/bytes2"
 )
 
 type BufferedResponseWriter struct {

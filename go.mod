@@ -1,4 +1,4 @@
-module thingworks.net/thingworks/common
+module thingworks.net/thingworks/jarvis-boot
 
 go 1.15
 

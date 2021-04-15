@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gomodule/redigo/redis"
-	"thingworks.net/thingworks/common/utils/strings2"
 	"log"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 	"time"
 )
 

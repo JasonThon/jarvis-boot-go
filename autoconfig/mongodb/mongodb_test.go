@@ -4,12 +4,12 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	"thingworks.net/thingworks/common/autoconfig/config"
-	"thingworks.net/thingworks/common/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"testing"
+	"thingworks.net/thingworks/jarvis-boot/autoconfig/config"
+	"thingworks.net/thingworks/jarvis-boot/utils"
 	"time"
 )
 

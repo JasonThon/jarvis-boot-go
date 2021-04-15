@@ -1,7 +1,7 @@
 package config
 
 import (
-	"thingworks.net/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 	"time"
 )
 

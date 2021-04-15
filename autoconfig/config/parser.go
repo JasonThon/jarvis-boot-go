@@ -2,10 +2,10 @@ package config
 
 import (
 	"github.com/sirupsen/logrus"
-	"thingworks.net/thingworks/common/utils/strings2"
 	"os"
 	"reflect"
 	"regexp"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 )
 
 type configParserMap map[reflect.Type]ConfigurationParser

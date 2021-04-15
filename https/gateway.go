@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"sync"
 	"sync/atomic"
-	"thingworks.net/thingworks/common/https/nio"
+	"thingworks.net/thingworks/jarvis-boot/https/nio"
 )
 
 const maxRequestNum = 2147483648

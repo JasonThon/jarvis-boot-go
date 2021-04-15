@@ -1,7 +1,7 @@
 package mongodb
 
 import (
-	config2 "thingworks.net/thingworks/common/autoconfig/config"
+	config2 "thingworks.net/thingworks/jarvis-boot/autoconfig/config"
 )
 
 func InitMongoTemplate(config config2.MongoConfig) error {

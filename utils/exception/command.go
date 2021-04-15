@@ -1,6 +1,6 @@
 package exception
 
-import "thingworks.net/thingworks/common/https"
+import "thingworks.net/thingworks/jarvis-boot/https"
 
 type IllegalCommandException struct {
 	statusCode int

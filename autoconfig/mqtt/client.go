@@ -3,7 +3,7 @@ package mqtt
 import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/sirupsen/logrus"
-	config2 "thingworks.net/thingworks/common/autoconfig/config"
+	config2 "thingworks.net/thingworks/jarvis-boot/autoconfig/config"
 	"time"
 )
 

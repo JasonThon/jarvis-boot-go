@@ -4,8 +4,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	config2 "thingworks.net/thingworks/common/autoconfig/config"
-	"thingworks.net/thingworks/common/utils/strings2"
+	config2 "thingworks.net/thingworks/jarvis-boot/autoconfig/config"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 )
 
 type Connector struct {

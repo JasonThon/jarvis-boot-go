@@ -1,6 +1,6 @@
 package config
 
-import "thingworks.net/thingworks/common/utils"
+import "thingworks.net/thingworks/jarvis-boot/utils"
 
 type RecoverConfig struct {
 	BidderExpiryTime int

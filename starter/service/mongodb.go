@@ -1,8 +1,8 @@
 package service
 
 import (
-	"thingworks.net/thingworks/common/autoconfig/config"
-	"thingworks.net/thingworks/common/autoconfig/mongodb"
+	"thingworks.net/thingworks/jarvis-boot/autoconfig/config"
+	"thingworks.net/thingworks/jarvis-boot/autoconfig/mongodb"
 )
 
 type MongoServiceStarter struct{}

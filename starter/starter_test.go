@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"sync"
 	"testing"
-	"thingworks.net/thingworks/common/https"
-	"thingworks.net/thingworks/common/utils/strings2"
+	"thingworks.net/thingworks/jarvis-boot/https"
+	"thingworks.net/thingworks/jarvis-boot/utils/strings2"
 	"time"
 )
 

@@ -2,7 +2,7 @@ package https
 
 import (
 	"net/http"
-	"thingworks.net/thingworks/common/https/nio"
+	"thingworks.net/thingworks/jarvis-boot/https/nio"
 )
 
 type WrappedRequest struct {
