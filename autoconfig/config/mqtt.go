@@ -17,7 +17,9 @@ type MqttConfig struct {
 }
 
 func (mqtt MqttConfig) Broker() string {
-	return strings2.Concat(mqtt.Host, ":", strings2.Itoa(mqtt.Port))
+	host:= strings2.Split(mqtt.Host, ":")[0]
+
+	return strings2.Concat(host, ":", strings2.Itoa(mqtt.Port))
 }
 
 func (mqtt MqttConfig) IsValid() bool {

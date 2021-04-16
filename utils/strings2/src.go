@@ -126,3 +126,7 @@ func ToByte(src string) []byte {
 
 	return nil
 }
+
+func Split(str string, separator string) []string {
+	return strings.Split(str, separator)
+}
