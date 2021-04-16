@@ -184,9 +184,17 @@ func method(methodName string, handler HttpHandler) HttpHandler {
 
 func Register(resource Resource, router *mux.Router, path string) {
 	for key, handler := range resource.Handlers() {
-		reqPath, _ := url.PathUnescape(strings2.Join([]string{path, key}, "/"))
+		reqPath, _ := getCompleteUrl(path, key)
 		router.HandleFunc(reqPath, wrapToFunc(reqPath, handler))
 	}
+}
+
+func getCompleteUrl(path string, key string) (string, error) {
+	if strings2.IsNotBlank(key) {
+		return url.PathUnescape(strings2.Join([]string{path, key}, "/"))
+	}
+
+	return url.PathUnescape(path)
 }
 
 func wrapToFunc(path string, handler HttpHandler) func(w http.ResponseWriter, r *http.Request) {

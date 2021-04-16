@@ -34,7 +34,7 @@ func main() {
 	dir, _ := os.Getwd()
 	log.Info(dir)
 
-	s := starter.GetDefaultAppStarter(starter.ConfigOptions{Path: strings2.Concat(dir, "/performance/config.yaml")})
+	s := starter.GetDefaultAppStarter(starter.ConfigOptions{Path: strings2.Concat(dir, "/test/performance/main/config.yaml")})
 	s.RegisterResource(https.ResourceMap{
 		"/purseudo": &purseudoResource{},
 	})

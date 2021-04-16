@@ -3,6 +3,9 @@ mongodb:
   port: 27017
   username:
   pasword:
+mqtt:
+  host: localhost:53
+  port: 1883
 
 app:
   port: 9090
