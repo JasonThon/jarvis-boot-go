@@ -9,7 +9,8 @@ import (
 	"thingworks.net/thingworks/jarvis-boot/https/nio"
 )
 
-const maxRequestNum = 2147483648
+// If this number is set too large, it will consume many memory resources. Please configure it carefully!
+const maxRequestNum = 65536
 
 var wg sync.WaitGroup
 

@@ -21,5 +21,5 @@ func (mqtt MqttConfig) Broker() string {
 }
 
 func (mqtt MqttConfig) IsValid() bool {
-	return strings2.IsNotBlank(mqtt.Broker())
+	return strings2.IsNotBlank(mqtt.Broker()) && mqtt.Port > 0 && strings2.IsNotBlank(mqtt.Host)
 }
