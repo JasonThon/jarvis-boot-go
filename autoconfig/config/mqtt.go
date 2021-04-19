@@ -28,5 +28,7 @@ func (mqtt MqttConfig) GetBroker() string {
 }
 
 func (mqtt MqttConfig) IsValid() bool {
-	return strings2.IsNotBlank(mqtt.GetBroker()) && mqtt.Port > 0 && strings2.IsNotBlank(mqtt.Host)
+	return strings2.IsNotBlank(mqtt.GetBroker()) &&
+		((mqtt.Port > 0 && strings2.IsNotBlank(mqtt.Host)) ||
+			strings2.IsNotBlank(mqtt.Broker))
 }
