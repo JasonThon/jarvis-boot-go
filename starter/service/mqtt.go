@@ -17,7 +17,7 @@ func (mqtt *MqttServiceStarter) Start() error {
 	client = mqtt2.NewClient(config.DefaultConfig())
 	mqtt2.Init(client)
 
-	return client.Conn()
+	return nil
 }
 
 func (mqtt *MqttServiceStarter) ServiceName() string {

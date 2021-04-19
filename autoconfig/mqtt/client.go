@@ -14,19 +14,37 @@ type Client struct {
 	defaultConf config2.AppConfig
 }
 
-func (cli Client) Client() mqtt.Client {
-	return cli.client
+func (cli Client) IsValid() bool {
+	return cli.client != nil
 }
 
-func (cli Client) Conn() error {
+func (cli Client) Conn() (mqtt.Token, error) {
 	if cli.client != nil {
 		if token := cli.client.Connect(); token.Wait() && token.Error() != nil {
 			logrus.Errorf("Error happens when connection mqtt client %v", token.Error())
 
-			return token.Error()
+			return token, token.Error()
 		}
 
 		logrus.Infof("Mqtt client has connected to broker [%v] successfully", cli.defaultConf.Mqtt.GetBroker())
+	}
+
+	return nil, nil
+}
+
+func (cli Client) Publish(topic string, qos byte, retained bool, payload interface{}) mqtt.Token {
+	if cli.IsValid() {
+		// if client is not connected, we will try to connect it
+		if !cli.client.IsConnected() || !cli.client.IsConnectionOpen() {
+			// Here, we will retry to connect mqtt as configured times
+			for i := 0; i < cli.defaultConf.Mqtt.GetRetry(); i++ {
+				if _, err := cli.Conn(); err == nil {
+					return cli.client.Publish(topic, qos, retained, payload)
+				}
+			}
+		}
+
+		return cli.client.Publish(topic, qos, retained, payload)
 	}
 
 	return nil
