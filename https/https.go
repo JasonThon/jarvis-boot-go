@@ -99,6 +99,20 @@ func newHttpRequest(request *http.Request) *HttpRequest {
 	}
 }
 
+func (request *HttpRequest) QueryParams() map[string]string {
+	result := map[string]string{}
+
+	for key := range request.URL.Query() {
+		result[key] = request.GetQueryParam(key)
+	}
+
+	return result
+}
+
+func (request *HttpRequest) GetQueryParam(query string) string {
+	return request.QueryString(query)
+}
+
 func (request *HttpRequest) GetPathParam(name string) string {
 	return request.pathParams[name]
 }
