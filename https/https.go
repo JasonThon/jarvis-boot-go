@@ -42,6 +42,7 @@ const (
 	RequestIsInValid   = "request.is.invalid"
 	PolicyNotSupported = "policy.not.supported"
 	NotAbleToGrant     = "not.able.to.grant"
+	Success            = "success"
 )
 
 type Response struct {
@@ -52,6 +53,10 @@ type Response struct {
 	Request *HttpRequest `json:"-"`
 }
 
+func NewResponse(status int, message string, code string, result interface{}, request *HttpRequest) *Response {
+	return &Response{Status: status, Message: message, Code: code, Result: result, Request: request}
+}
+
 var ResponseMethodNotAllowed = Response{Status: 400, Code: MethodNotAllowed, Message: "method is NOT allowed"}
 
 func (result Response) To(w http.ResponseWriter) {
@@ -60,6 +65,17 @@ func (result Response) To(w http.ResponseWriter) {
 
 func (result Response) ToWithoutLog(w http.ResponseWriter) {
 	writeToResponse(w, result, false)
+}
+
+func (result *Response) ToString() string {
+	data, err := json.Marshal(result)
+
+	if err != nil {
+		logrus.Errorf("Error happens when serialize response: %v", err)
+		return ""
+	}
+
+	return string(data)
 }
 
 func writeToResponse(w http.ResponseWriter, result Response, writeLog bool) {
